@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Main Page</title>
+        <link rel="stylesheet" href="resources/styles/mainpage.css" type="text/css"/>
+        <style>
+            .input-field {
+                width: 200px;
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            .data-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            .data-table th, .data-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+            .data-table th {
+                background-color: #f2f2f2;
+            }
+            .form-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin: 20px;
+            }
+            .slider-container {
+                width: 210px;
+                margin: 10px 0;
+            }
+            .slider {
+                width: 100%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div id="upper-container">
+            <div id="graphContainer">
+                <svg id="graph-svg" width="400" height="400" viewBox="-200 -200 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Остальное SVG остается без изменений -->
+                    <line x1="-200" y1="0" x2="200" y2="0" stroke="black"></line> 
+                    <line x1="0" y1="200" x2="0" y2="-200" stroke="black"></line> 
+                    <line x1="-150" y1="-5" x2="-150" y2="5" stroke="black"></line>
+                    <text id="label-minus-r" x="-160" y="20" font-size="20">-R</text>
+                    <line x1="-75" y1="-5" x2="-75" y2="5" stroke="black"></line>
+                    <text id="label-minus-half-r" x="-85" y="20" font-size="20">-R/2</text>
+                    <line x1="150" y1="-5" x2="150" y2="5" stroke="black"></line>
+                    <text id="label-r" x="140" y="20" font-size="20">R</text>
+                    <line x1="75" y1="-5" x2="75" y2="5" stroke="black"></line>
+                    <text id="label-half-r" x="65" y="20" font-size="20">R/2</text> 
+                    <line x1="-5" y1="150" x2="5" y2="150" stroke="black"></line>
+                    <text id="label-r-y" x="10" y="155" font-size="20">R</text>
+                    <line x1="-5" y1="75" x2="5" y2="75" stroke="black"></line>
+                    <text id="label-half-r-y" x="10" y="80" font-size="20">R/2</text>
+                    <line x1="-5" y1="-150" x2="5" y2="-150" stroke="black"></line>
+                    <text id="label-minus-r-y" x="10" y="-140" font-size="20">-R</text>
+                    <line x1="-5" y1="-75" x2="5" y2="-75" stroke="black"></line>
+                    <text id="label-minus-half-r-y" x="10" y="-65" font-size="20">-R/2</text>
+                    <polygon points="0,0 0, -150 -150,0" fill-opacity="0.6" stroke="navy" fill="purple"></polygon>
+                    <path d="M 0 0 H -150 A 150 150 0 0 0 0 150" stroke="navy" fill="purple" fill-opacity="0.6"></path>
+                    <rect x="0" y="0" width="150" height="150" fill-opacity="0.6" stroke="navy" fill="purple"></rect> 
+                    <polygon points="200,0 190,5 190,-5" fill="black"></polygon> 
+                    <polygon points="0,-200 -5,-190 5,-190" fill="black"></polygon> 
+                    <text x="180" y="20" font-size="20">R</text>
+                    <text x="-40" y="-180" font-size="20">R</text>
+                </svg>
+            </div>
+            
+            <h:form styleClass="form-container">
+                <h5>X (-5 to 5):</h5>
+                <h:inputText id="xValue" value="#{pointBean.x}" styleClass="input-field">
+                    <f:validateDoubleRange minimum="-5" maximum="5"/>
+                </h:inputText>
+                
+                <h5>Y (-5 to 5):</h5>
+                <h:inputText id="yValue" value="#{pointBean.y}" styleClass="input-field">
+                    <f:validateDoubleRange minimum="-5" maximum="5"/>
+                </h:inputText>
+                
+                <h5>R (1, 1.5, 2, 2.5 or 3):</h5>
+                <h:inputText id="rValue" value="#{pointBean.r}" styleClass="input-field">
+                    <f:validateDoubleRange minimum="1" maximum="3"/>
+                </h:inputText>
+                
+                <h:commandButton value="Check" action="#{formBean.processForm(pointBean)}" styleClass="btn">
+                    <f:ajax execute="@form" render="resultTable" onevent="getValuesFromTable"/>
+                </h:commandButton>
+            </h:form>
+            
+            <h:form>
+                <h:commandButton value="Welcome page" action="index.xhtml" styleClass="btn"/>
+            </h:form>
+        </div>
+        
+        <div id="results-container">
+            <h:dataTable id="resultTable" value="#{resultBean.results}" var="point" styleClass="data-table">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    <h:outputText value="#{point.x}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    <h:outputText value="#{point.y}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    <h:outputText value="#{point.r}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Hit</f:facet>
+                    <h:outputText value="#{point.isHit ? 'Hit' : 'Miss'}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Execution Time</f:facet>
+                    <h:outputText value="#{point.executionTime}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Current Time</f:facet>
+                    <h:outputText value="#{point.createdAt}">
+                        <f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy"/>
+                    </h:outputText>
+                </h:column>
+            </h:dataTable>
+        </div>
+        <script type="text/javascript" src="resources/scripts/index.js"></script>
+    </h:body>
+</html>

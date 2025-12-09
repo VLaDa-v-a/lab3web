@@ -1,0 +1,97 @@
+:root {
+    --primary-background-color: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);
+    --secondary-color: #5a2fd1;
+    --accent-color: #3b1d98;
+    --text-color: #f0f0ff;
+    --hover-color: #a78bfa;
+    --shadow-color: rgba(59, 29, 152, 0.3);
+    --standart-border-radius: 15px;
+    --card-bg: rgba(255, 255, 255, 0.15);
+}
+
+body {
+    background: var(--primary-background-color);
+    background-attachment: fixed;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#welcomepage-header {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    color: var(--text-color);
+    font-size: 20px;
+    padding: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--standart-border-radius);
+    margin: 20px;
+    box-shadow: 0 8px 20px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+#welcomepage-header:hover {
+    transform: translateY(-5px);
+}
+
+#welcomepage-header h1 {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px var(--shadow-color);
+}
+
+#welcomepage-header h2 {
+    font-size: 1.2rem;
+    color: #e0e0ff;
+    font-weight: 300;
+}
+
+#credit {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#credit a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+#credit a:hover {
+    color: var(--hover-color);
+    text-decoration: none;
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.7);
+}
+
+#myCanvas {
+    padding: 0;
+    margin: 30px auto;
+    display: block;
+    border-radius: var(--standart-border-radius);
+    box-shadow: 0 10px 25px var(--shadow-color);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+#clock {
+    text-align: center;
+    font-size: 1.8rem;
+    font-family: 'Courier New', monospace;
+    color: white;
+    margin: 25px auto;
+    padding: 15px 25px;
+    width: fit-content;
+    background: var(--card-bg);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--standart-border-radius);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.mainPageButton:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px var(--shadow-color);
+    background-color: var(--hover-color);
+}

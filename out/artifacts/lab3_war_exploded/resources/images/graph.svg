@@ -1,0 +1,42 @@
+<svg width="400" height="400" viewBox="-200 -200 400 400" xmlns="http://www.w3.org/2000/svg">
+    <!-- Оси -->
+    <line x1="-200" y1="0" x2="200" y2="0" stroke="black"></line> <!-- Ось X -->
+    <line x1="0" y1="200" x2="0" y2="-200" stroke="black"></line> <!-- Ось Y -->
+
+    <!-- Черточки на осях -->
+    <line x1="-150" y1="-5" x2="-150" y2="5" stroke="black"></line>
+    <text x="-160" y="20" font-size="20">-R</text>
+
+    <line x1="-75" y1="-5" x2="-75" y2="5" stroke="black"></line>
+    <text x="-85" y="20" font-size="20">-R/2</text>
+
+    <line x1="150" y1="-5" x2="150" y2="5" stroke="black"></line>
+    <text x="140" y="20" font-size="20">R</text>
+
+    <line x1="75" y1="-5" x2="75" y2="5" stroke="black"></line>
+    <text x="65" y="20" font-size="20">R/2</text>
+
+    <line x1="-5" y1="150" x2="5" y2="150" stroke="black"></line>
+    <text x="10" y="155" font-size="20">R</text>
+
+    <line x1="-5" y1="75" x2="5" y2="75" stroke="black"></line>
+    <text x="10" y="80" font-size="20">R/2</text>
+
+    <line x1="-5" y1="-150" x2="5" y2="-150" stroke="black"></line>
+    <text x="10" y="-140" font-size="20">-R</text>
+
+    <line x1="-5" y1="-75" x2="5" y2="-75" stroke="black"></line>
+    <text x="10" y="-65" font-size="20">-R/2</text>
+    <!-- Треугольник -->
+    <polygon points="0,0 0, -150 -150,0" fill-opacity="0.6" stroke="navy" fill="purple"></polygon>
+    <!-- Четверть окружности -->
+     <path d="M 0 0 H -150 A 150 150 0 0 0 0 150" stroke="navy" fill="purple" fill-opacity="0.6"></path>
+    <!-- Прямоугольник -->
+    <rect x="0" y="0" width="150" height="150" fill-opacity="0.6" stroke="navy" fill="purple"></rect> 1
+    <!-- Стрелки -->
+    <polygon points="200,0 190,5 190,-5" fill="black"></polygon> <!-- Стрелка на X -->
+    <polygon points="0,-200 -5,-190 5,-190" fill="black"></polygon> <!-- Стрелка на Y -->
+    <!-- Подписи осей -->
+    <text x="180" y="20" font-size="20">R</text>
+    <text x="-40" y="-180" font-size="20">R</text>
+</svg>

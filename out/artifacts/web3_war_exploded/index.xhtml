@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta name="author" content="Хижниченко Мария"/>
+        <meta name="description" content="Web-programming, lab 3"/>
+        <meta name="keywords" content="ITMO, Web-programming, VT"/>
+        <title>Laboratory work no. 3 | Web-programming</title>
+        <link rel="stylesheet" href="resources/styles/welcomepage.css" type="text/css"/> 
+    </h:head>
+    <h:body>
+        <header id="welcomepage-header">
+            <h1>Web-programming | Laboratory work no. 3</h1>
+            <div id="credit">
+                <p>Хижниченко Мария</p>
+            </div>
+        </header>
+
+        <div id="clock"> </div>
+        <br/>
+        <h:form>
+            <h:commandButton value="Main page" action="main.xhtml" styleClass="mainPageButton" style="font-size: 18px; font-family: monospace; color: #333; background-color: #fafafa; border: 2px solid black; border-radius: 10px; padding: 10px 20px; cursor: pointer; transition: background-color 0.3s ease-in-out, color 0.3s ease; outline: none; display: block; margin: 20px auto; width: auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" />
+        </h:form>
+
+        <script src="resources/scripts/clock.js"></script>
+    </h:body>
+</html>
