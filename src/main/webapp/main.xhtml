@@ -90,13 +90,20 @@
                     <f:validateDoubleRange minimum="1" maximum="3"/>
                 </h:inputText>
                 
-                <h:commandButton value="Check" action="#{formBean.processForm(pointBean)}" styleClass="btn">
+                <h:commandButton value="Check" action="#{formBean.processForm(pointBean)}">
                     <f:ajax execute="@form" render="resultTable" onevent="getValuesFromTable"/>
                 </h:commandButton>
             </h:form>
             
             <h:form>
-                <h:commandButton value="Welcome page" action="index.xhtml" styleClass="btn"/>
+                <h:commandButton value="Welcome page" action="index.xhtml" />
+            </h:form>
+            
+            <h:form id="clearForm">
+                <h:commandButton value="Clear History" action="#{formBean.processClean()}" styleClass="btn"
+                    onclick="if(confirm('Вы точно уверены, что хотите стереть всю историю?')) { clearPoints(); return true; } else { return false; }">
+                    <f:ajax execute="@form" render=":resultTable"/>
+                </h:commandButton>
             </h:form>
         </div>
         

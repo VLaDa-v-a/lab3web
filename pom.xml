@@ -22,18 +22,16 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Hibernate -->
+    <!-- Apache Derby (embedded) -->
     <dependency>
-      <groupId>org.hibernate.orm</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>6.5.2.Final</version>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.16.1.1</version>
     </dependency>
-
-    <!-- PostgreSQL -->
     <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.7.2</version>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derbytools</artifactId>
+      <version>10.16.1.1</version>
     </dependency>
 
     <!-- PrimeFaces (добавляем исключение для транзитивных зависимостей) -->

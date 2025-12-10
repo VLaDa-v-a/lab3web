@@ -23,6 +23,9 @@ public class FormBean {
     @Inject
     private TimeInterval timeInterval;
 
+    @Inject
+    private DatabaseService databaseService;
+
     public void processForm(Point point) {
         timeInterval.calculateTime();
 
@@ -38,19 +41,22 @@ public class FormBean {
         pointsCounter.addPoint(isHit);
         long endTime = System.nanoTime();
         point.setExecutionTime(endTime - startTime);
+        
         if (shouldUpdateAllPoints(point.getR())) {
-            // databaseService.updateAllPoints(point.getR());
-            resultBean.updatePoints(point.getR());
+            databaseService.updateAllPoints(point.getR());
+            resultBean.reloadFromDatabase();
         }
-        // databaseService.addPoint(point);
+        
+        databaseService.addPoint(point);
         resultBean.addResult(point);
     }
 
     private boolean shouldUpdateAllPoints(float radius) {
         return !resultBean.getResults().isEmpty() && resultBean.getResults().get(0).getR() != radius;
-    }    
+    }
+    
     public void processClean() {
-        // databaseService.removeAllPoints();
+        databaseService.removeAllPoints();
         resultBean.clearPoints();
     }
 }

@@ -75,12 +75,27 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-#clock {
+#date {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-family: 'Courier New', monospace;
     color: white;
-    margin: 25px auto;
+    margin: 25px auto 10px auto;
+    padding: 15px 25px;
+    width: fit-content;
+    background: var(--card-bg);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--standart-border-radius);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+#clock {
+    text-align: center;
+    font-size: 2.2rem;
+    font-family: 'Courier New', monospace;
+    color: white;
+    margin: 10px auto 25px auto;
     padding: 15px 25px;
     width: fit-content;
     background: var(--card-bg);
