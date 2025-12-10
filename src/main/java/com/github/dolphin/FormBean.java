@@ -3,28 +3,54 @@ package com.github.dolphin;
 import com.github.dolphin.monitoring.TimeInterval;
 import com.github.dolphin.monitoring.PointsCounter;
 import com.github.dolphin.utils.*;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@Named("formBean")
-@ApplicationScoped
-public class FormBean {
-    private int miss = 0;
+/**
+ * Managed bean for form processing.
+ * Configuration: faces-config.xml (application scope)
+ */
+public class FormBean implements Serializable {
 
-    @Inject
+    // Injected via <managed-property> in faces-config.xml
     private ResultBean resultBean;
-    
-    @Inject
     private PointsCounter pointsCounter;
-
-    @Inject
     private TimeInterval timeInterval;
-
-    @Inject
     private DatabaseService databaseService;
+
+    // Getters and Setters for managed-property injection
+    public ResultBean getResultBean() {
+        return resultBean;
+    }
+
+    public void setResultBean(ResultBean resultBean) {
+        this.resultBean = resultBean;
+    }
+
+    public PointsCounter getPointsCounter() {
+        return pointsCounter;
+    }
+
+    public void setPointsCounter(PointsCounter pointsCounter) {
+        this.pointsCounter = pointsCounter;
+    }
+
+    public TimeInterval getTimeInterval() {
+        return timeInterval;
+    }
+
+    public void setTimeInterval(TimeInterval timeInterval) {
+        this.timeInterval = timeInterval;
+    }
+
+    public DatabaseService getDatabaseService() {
+        return databaseService;
+    }
+
+    public void setDatabaseService(DatabaseService databaseService) {
+        this.databaseService = databaseService;
+    }
 
     public void processForm(Point point) {
         timeInterval.calculateTime();

@@ -1,17 +1,18 @@
 package com.github.dolphin.utils;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named("databaseService")
-@ApplicationScoped
-public class DatabaseService {
+/**
+ * Service for database operations using JDBC and Apache Derby.
+ * Configuration: faces-config.xml (application scope)
+ */
+public class DatabaseService implements Serializable {
 
     private static final String DB_URL = "jdbc:derby:pointsDB;create=true";
     private Connection connection;
@@ -143,7 +144,6 @@ public class DatabaseService {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
-            // Proper Derby shutdown
             try {
                 DriverManager.getConnection("jdbc:derby:;shutdown=true");
             } catch (SQLException e) {

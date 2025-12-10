@@ -1,13 +1,12 @@
 package com.github.dolphin.utils;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Named;
-
 import java.io.Serializable;
 import java.util.Date;
 
-@Named("pointBean")
-@RequestScoped
+/**
+ * Managed bean for point data.
+ * Configuration: faces-config.xml (request scope)
+ */
 public class Point implements Serializable {
     private Long id;
     private float x;

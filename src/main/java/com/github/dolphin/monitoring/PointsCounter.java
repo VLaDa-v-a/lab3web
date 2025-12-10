@@ -1,13 +1,13 @@
 package com.github.dolphin.monitoring;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 import javax.management.Notification;
 import javax.management.NotificationBroadcasterSupport;
 import java.io.Serializable;
 
-@Named("pointsCounter")
-@ApplicationScoped
+/**
+ * MBean for counting points.
+ * Configuration: faces-config.xml (application scope)
+ */
 public class PointsCounter implements PointsCounterMBean, Serializable {
     private int totalPoints;
     private int hitPoints;
@@ -33,9 +33,9 @@ public class PointsCounter implements PointsCounterMBean, Serializable {
     public void notifyOutOfBounds() {
         Notification notification = new Notification(
                 "point.outOfBounds",
-                "com.github.dolphin:type=PointsCounter", // Используем ObjectName как источник
+                "com.github.dolphin:type=PointsCounter",
                 System.currentTimeMillis(),
-                "Вы установили точку вне области!"
+                "Point is out of bounds!"
         );
         broadcaster.sendNotification(notification);
     }
@@ -46,7 +46,6 @@ public class PointsCounter implements PointsCounterMBean, Serializable {
         if (isHit) hitPoints++;
     }
 
-    // Реализация методов NotificationBroadcaster
     @Override
     public void addNotificationListener(javax.management.NotificationListener listener,
                                         javax.management.NotificationFilter filter,
@@ -66,7 +65,7 @@ public class PointsCounter implements PointsCounterMBean, Serializable {
                 new javax.management.MBeanNotificationInfo(
                         new String[] { "point.outOfBounds" },
                         Notification.class.getName(),
-                        "Уведомление о точке вне области"
+                        "Notification about point out of bounds"
                 )
         };
     }

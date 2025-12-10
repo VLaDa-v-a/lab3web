@@ -1,20 +1,100 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<faces-config version="3.0" xmlns="https://jakarta.ee/xml/ns/jakartaee"
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
-                                  https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd">
+              version="2.3"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                                  http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
+
+    <!-- ==================== Managed Beans Configuration ==================== -->
+
+    <!-- Point Bean - Request Scoped (for form input) -->
+    <managed-bean>
+        <managed-bean-name>pointBean</managed-bean-name>
+        <managed-bean-class>com.github.dolphin.utils.Point</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <!-- Database Service - Application Scoped -->
+    <managed-bean>
+        <managed-bean-name>databaseService</managed-bean-name>
+        <managed-bean-class>com.github.dolphin.utils.DatabaseService</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+    <!-- Points Counter - Application Scoped (for monitoring) -->
+    <managed-bean>
+        <managed-bean-name>pointsCounter</managed-bean-name>
+        <managed-bean-class>com.github.dolphin.monitoring.PointsCounter</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+    <!-- Time Interval - Application Scoped (for monitoring) -->
+    <managed-bean>
+        <managed-bean-name>timeInterval</managed-bean-name>
+        <managed-bean-class>com.github.dolphin.monitoring.TimeInterval</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+    <!-- Result Bean - Application Scoped -->
+    <managed-bean>
+        <managed-bean-name>resultBean</managed-bean-name>
+        <managed-bean-class>com.github.dolphin.ResultBean</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+        <managed-property>
+            <property-name>databaseService</property-name>
+            <value>#{databaseService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>pointsCounter</property-name>
+            <value>#{pointsCounter}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>timeInterval</property-name>
+            <value>#{timeInterval}</value>
+        </managed-property>
+    </managed-bean>
+
+    <!-- Form Bean - Application Scoped -->
+    <managed-bean>
+        <managed-bean-name>formBean</managed-bean-name>
+        <managed-bean-class>com.github.dolphin.FormBean</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+        <managed-property>
+            <property-name>resultBean</property-name>
+            <value>#{resultBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>databaseService</property-name>
+            <value>#{databaseService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>pointsCounter</property-name>
+            <value>#{pointsCounter}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>timeInterval</property-name>
+            <value>#{timeInterval}</value>
+        </managed-property>
+    </managed-bean>
+
+    <!-- ==================== Navigation Rules ==================== -->
+
     <navigation-rule>
-        <from-view-id>index.xhtml</from-view-id>
+        <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>main</from-outcome>
-            <to-view-id>main.xhtml</to-view-id>
+            <to-view-id>/main.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
+
     <navigation-rule>
-        <from-view-id>main.xhtml</from-view-id>
+        <from-view-id>/main.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>index</from-outcome>
-            <to-view-id>index.xhmtl</to-view-id>
+            <to-view-id>/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
+
 </faces-config>

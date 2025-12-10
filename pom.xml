@@ -13,12 +13,13 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
   </properties>
+  
   <dependencies>
-    <!-- Jakarta EE (scope provided - сервер предоставит) -->
+    <!-- Java EE 8 (для WildFly 26 обычной версии) -->
     <dependency>
-      <groupId>jakarta.platform</groupId>
-      <artifactId>jakarta.jakartaee-web-api</artifactId>
-      <version>10.0.0</version>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>8.0.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -26,26 +27,25 @@
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
-      <version>10.16.1.1</version>
+      <version>10.15.2.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derbytools</artifactId>
-      <version>10.16.1.1</version>
+      <version>10.15.2.0</version>
     </dependency>
 
-    <!-- PrimeFaces (добавляем исключение для транзитивных зависимостей) -->
+    <!-- PrimeFaces 12 (без jakarta classifier - для javax.*) -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>12.0.0</version>
+    </dependency>
+
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.11.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.primefaces</groupId>
-      <artifactId>primefaces</artifactId>
-      <version>14.0.0</version>
-      <classifier>jakarta</classifier>
     </dependency>
   </dependencies>
 

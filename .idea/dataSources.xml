@@ -5,7 +5,7 @@
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby:$PROJECT_DIR$/../../../../wildfly-27.0.0.Final/bin/pointsDB</jdbc-url>
+      <jdbc-url>jdbc:derby:$PROJECT_DIR$/../../../../wildfly-26.1.3.Final/bin/pointsDB</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
