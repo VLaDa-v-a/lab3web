@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Main Page</title>
+        <title>lab3web_main</title>
         <link rel="stylesheet" href="resources/styles/mainpage.css" type="text/css"/>
         <style>
             .input-field {
@@ -47,56 +48,95 @@
                 <svg id="graph-svg" width="400" height="400" viewBox="-200 -200 400 400" xmlns="http://www.w3.org/2000/svg">
                     <!-- Остальное SVG остается без изменений -->
                     <line x1="-200" y1="0" x2="200" y2="0" stroke="black"></line> 
-                    <line x1="0" y1="200" x2="0" y2="-200" stroke="black"></line> 
+                    <line x1="0" y1="200" x2="0" y2="-200" stroke="black"></line>
+
                     <line x1="-150" y1="-5" x2="-150" y2="5" stroke="black"></line>
                     <text id="label-minus-r" x="-160" y="20" font-size="20">-R</text>
                     <line x1="-75" y1="-5" x2="-75" y2="5" stroke="black"></line>
                     <text id="label-minus-half-r" x="-85" y="20" font-size="20">-R/2</text>
+
                     <line x1="150" y1="-5" x2="150" y2="5" stroke="black"></line>
                     <text id="label-r" x="140" y="20" font-size="20">R</text>
                     <line x1="75" y1="-5" x2="75" y2="5" stroke="black"></line>
-                    <text id="label-half-r" x="65" y="20" font-size="20">R/2</text> 
+                    <text id="label-half-r" x="65" y="20" font-size="20">R/2</text>
+
                     <line x1="-5" y1="150" x2="5" y2="150" stroke="black"></line>
-                    <text id="label-r-y" x="10" y="155" font-size="20">R</text>
+                    <text id="label-minus-r-y" x="10" y="155" font-size="20">-R</text>
                     <line x1="-5" y1="75" x2="5" y2="75" stroke="black"></line>
-                    <text id="label-half-r-y" x="10" y="80" font-size="20">R/2</text>
+                    <text id="label-minus-half-r-y" x="10" y="80" font-size="20">-R/2</text>
+
                     <line x1="-5" y1="-150" x2="5" y2="-150" stroke="black"></line>
-                    <text id="label-minus-r-y" x="10" y="-140" font-size="20">-R</text>
+                    <text id="label-r-y" x="10" y="-140" font-size="20">R</text>
                     <line x1="-5" y1="-75" x2="5" y2="-75" stroke="black"></line>
-                    <text id="label-minus-half-r-y" x="10" y="-65" font-size="20">-R/2</text>
-                    <polygon points="0,0 0, -150 -150,0" fill-opacity="0.6" stroke="navy" fill="purple"></polygon>
-                    <path d="M 0 0 H -150 A 150 150 0 0 0 0 150" stroke="navy" fill="purple" fill-opacity="0.6"></path>
-                    <rect x="0" y="0" width="150" height="150" fill-opacity="0.6" stroke="navy" fill="purple"></rect> 
+                    <text id="label-half-r-y" x="10" y="-65" font-size="20">R/2</text>
+
+                    <polygon points="0,0 0,75 150,0" fill-opacity="0.6" stroke="#3a7ca5" fill="#94c5cc" pointer-events="none"></polygon>
+                    <path d="M 0 0 V -150 A 150 150 0 0 1 150 0" stroke="#3a7ca5" fill="#94c5cc" fill-opacity="0.6" pointer-events="none"></path>
+                    <rect x="-150" y="-75" width="150" height="75" fill="#94c5cc" fill-opacity="0.6" stroke="#3a7ca5" pointer-events="none"/>
+
                     <polygon points="200,0 190,5 190,-5" fill="black"></polygon> 
                     <polygon points="0,-200 -5,-190 5,-190" fill="black"></polygon> 
+
                     <text x="180" y="20" font-size="20">R</text>
                     <text x="-40" y="-180" font-size="20">R</text>
                 </svg>
             </div>
             
-            <h:form styleClass="form-container">
-                <h5>X (-5 to 5):</h5>
-                <h:inputText id="xValue" value="#{pointBean.x}" styleClass="input-field">
-                    <f:validateDoubleRange minimum="-5" maximum="5"/>
+            <h:form id="mainForm" styleClass="form-container">
+                <h5>X (от -5 до 3):</h5>
+                <h:inputText id="xValue" value="#{pointBean.x}" styleClass="input-field" 
+                             validatorMessage="Значение X от -5 до 3!"
+                             converterMessage="Значение X от -5 до 3!">
+                    <f:validateDoubleRange minimum="-5" maximum="3"/>
                 </h:inputText>
+                <h:message id="xMessage" for="xValue" 
+                           errorStyle="color: red; font-size: 16px; font-weight: bold; display: block; margin-top: 5px;"/>
                 
-                <h5>Y (-5 to 5):</h5>
-                <h:inputText id="yValue" value="#{pointBean.y}" styleClass="input-field">
-                    <f:validateDoubleRange minimum="-5" maximum="5"/>
-                </h:inputText>
+                <h5>Y (-5 to 5): <h:outputText id="yDisplay" value="#{pointBean.y}"/></h5>
+                <h:inputHidden id="yValue" value="#{pointBean.y}"/>
+                <p:slider for="yValue" minValue="-5" maxValue="5" step="1" display="yDisplay" style="width: 200px;"/>
                 
-                <h5>R (1, 1.5, 2, 2.5 or 3):</h5>
-                <h:inputText id="rValue" value="#{pointBean.r}" styleClass="input-field">
-                    <f:validateDoubleRange minimum="1" maximum="3"/>
-                </h:inputText>
+                <h5>R: <h:outputText id="rDisplay" value="#{pointBean.r}"/></h5>
+                <h:inputHidden id="rValue" value="#{pointBean.r}"/>
+                <h:panelGroup id="rSelector" layout="block" styleClass="r-selector">
+                    <h:commandLink value="1" styleClass="r-link#{pointBean.r == 1 ? ' selected' : ''}">
+                        <f:setPropertyActionListener target="#{pointBean.r}" value="1"/>
+                        <f:ajax render="rDisplay rValue rSelector"/>
+                    </h:commandLink>
+                    <h:commandLink value="2" styleClass="r-link#{pointBean.r == 2 ? ' selected' : ''}">
+                        <f:setPropertyActionListener target="#{pointBean.r}" value="2"/>
+                        <f:ajax render="rDisplay rValue rSelector"/>
+                    </h:commandLink>
+                    <h:commandLink value="3" styleClass="r-link#{pointBean.r == 3 ? ' selected' : ''}">
+                        <f:setPropertyActionListener target="#{pointBean.r}" value="3"/>
+                        <f:ajax render="rDisplay rValue rSelector"/>
+                    </h:commandLink>
+                    <h:commandLink value="4" styleClass="r-link#{pointBean.r == 4 ? ' selected' : ''}">
+                        <f:setPropertyActionListener target="#{pointBean.r}" value="4"/>
+                        <f:ajax render="rDisplay rValue rSelector"/>
+                    </h:commandLink>
+                    <h:commandLink value="5" styleClass="r-link#{pointBean.r == 5 ? ' selected' : ''}">
+                        <f:setPropertyActionListener target="#{pointBean.r}" value="5"/>
+                        <f:ajax render="rDisplay rValue rSelector"/>
+                    </h:commandLink>
+                </h:panelGroup>
                 
-                <h:commandButton value="Check" action="#{formBean.processForm(pointBean)}">
-                    <f:ajax execute="@form" render="resultTable" onevent="getValuesFromTable"/>
+                <h:commandButton id="checkBtn" value="Check" action="#{formBean.processForm(pointBean)}" styleClass="check-btn"
+                                 onclick="return validateForm()">
+                    <f:ajax execute="@form" render="xMessage resultTable" onevent="getValuesFromTable"/>
                 </h:commandButton>
+                <div id="formMessage" style="color: red; font-size: 16px; font-weight: bold; margin-top: 10px; display: none;">
+                    Введите все значения: X, Y, R
+                </div>
+                
+                <p:remoteCommand name="submitFromGraph" 
+                                 action="#{formBean.processFormFromGraph()}" 
+                                 update="resultTable" 
+                                 oncomplete="getValuesFromTable()"/>
             </h:form>
             
             <h:form>
-                <h:commandButton value="Welcome page" action="index.xhtml" />
+                <h:commandButton value="Welcome page" action="index" />
             </h:form>
             
             <h:form id="clearForm">
@@ -111,7 +151,7 @@
             <h:dataTable id="resultTable" value="#{resultBean.results}" var="point" styleClass="data-table">
                 <h:column>
                     <f:facet name="header">X</f:facet>
-                    <h:outputText value="#{point.x}"/>
+                    <h:outputText value="#{point.x}" styleClass="wrap-text"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Y</f:facet>
@@ -122,15 +162,15 @@
                     <h:outputText value="#{point.r}"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Hit</f:facet>
-                    <h:outputText value="#{point.isHit ? 'Hit' : 'Miss'}"/>
+                    <f:facet name="header">Ответ</f:facet>
+                    <h:outputText value="#{point.isHit ? 'Попал' : 'Мимо'}"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Execution Time</f:facet>
+                    <f:facet name="header">Время выполнения</f:facet>
                     <h:outputText value="#{point.executionTime}"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Current Time</f:facet>
+                    <f:facet name="header">Время на сервере</f:facet>
                     <h:outputText value="#{point.createdAt}">
                         <f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy"/>
                     </h:outputText>

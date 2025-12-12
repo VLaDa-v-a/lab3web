@@ -1,6 +1,7 @@
 package com.github.dolphin.utils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -9,16 +10,16 @@ import java.util.Date;
  */
 public class Point implements Serializable {
     private Long id;
-    private float x;
-    private float y;
-    private float r;
+    private BigDecimal x;
+    private BigDecimal y;
+    private BigDecimal r;
     private boolean isHit;
     private Date createdAt;
     private long executionTime;
 
     public Point() {}
 
-    public Point(float x, float y, float r, boolean isHit, Date createdAt, long executionTime) {
+    public Point(BigDecimal x, BigDecimal y, BigDecimal r, boolean isHit, Date createdAt, long executionTime) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -29,12 +30,12 @@ public class Point implements Serializable {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public float getX() { return x; }
-    public void setX(float x) { this.x = x; }
-    public float getY() { return y; }
-    public void setY(float y) { this.y = y; }
-    public float getR() { return r; }
-    public void setR(float r) { this.r = r; }
+    public BigDecimal getX() { return x; }
+    public void setX(BigDecimal x) { this.x = x; }
+    public BigDecimal getY() { return y; }
+    public void setY(BigDecimal y) { this.y = y; }
+    public BigDecimal getR() { return r; }
+    public void setR(BigDecimal r) { this.r = r; }
     public boolean getIsHit() { return isHit; }
     public void setIsHit(boolean isHit) { this.isHit = isHit; }
     public Date getCreatedAt() { return createdAt; }

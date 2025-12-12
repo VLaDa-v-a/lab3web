@@ -1,13 +1,13 @@
 :root {
-    --primary-background: linear-gradient(145deg, #f0f2ff 0%, #f9f0ff 100%);
-    --card-background: rgba(255, 255, 255, 0.85);
-    --primary-accent: #7b5cfa;
-    --secondary-accent: #5a4fcf;
-    --hover-color: #9378ff;
-    --border-color: #d1c4f9;
-    --dark-text: #2a2252;
-    --light-text: #5e569b;
-    --shadow: 0 6px 15px rgba(91, 71, 201, 0.15);
+    --primary-background: linear-gradient(145deg, #b4d2e7 0%, #94c5cc 100%);
+    --card-background: rgba(255, 255, 255, 0.9);
+    --primary-accent: #94c5cc;
+    --secondary-accent: #b4d2e7;
+    --hover-color: #6fafc0;
+    --border-color: #94c5cc;
+    --dark-text: #1f3540;
+    --light-text: #3c6070;
+    --shadow: 0 6px 15px rgba(73, 131, 150, 0.2);
     --border-radius: 12px;
 }
 
@@ -80,13 +80,12 @@ body {
 
 .data-table th {
     background-color: var(--primary-accent);
-    color: white;
     font-weight: 500;
     letter-spacing: 0.5px;
 }
 
 .data-table tr:nth-child(odd) {
-    background-color: rgba(245, 240, 255, 0.6);
+    background-color: rgba(148, 197, 204, 0.20);
 }
 
 .data-table tr:nth-child(even) {
@@ -94,9 +93,37 @@ body {
 }
 
 .data-table tr:hover {
-    background-color: rgba(235, 230, 255, 0.8);
+    background-color: rgba(148, 197, 204, 0.35);
 }
 
+.wrap-text {
+    word-break: break-all;
+    white-space: normal;
+}
+
+/* PrimeFaces slider styling (match R buttons) */
+#mainForm .ui-slider-horizontal .ui-slider-range {
+    background: var(--primary-accent);
+    border: 1px solid var(--primary-accent);
+}
+
+#mainForm .ui-slider-handle {
+    border: 2px solid var(--primary-accent);
+    background: var(--card-background);
+    box-shadow: 0 0 0 3px rgba(148, 197, 204, 0.35);
+}
+
+/* Disable text selection on SVG graph (labels/R/etc.) */
+#graph-svg, 
+#graph-svg text, 
+#graph-svg line, 
+#graph-svg polygon, 
+#graph-svg path, 
+#graph-svg rect {
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 .form-container {
     display: flex;
     flex-direction: column;
@@ -153,4 +180,46 @@ body {
 
 .btn {
     margin-top: 30px;
+}
+
+/* R Selector Links */
+.r-selector {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 0 10px 0;
+}
+
+.r-link {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--dark-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.r-link.selected {
+    background: var(--primary-accent);
+    color: white;
+    border-color: var(--primary-accent);
+}
+
+.check-btn {
+    margin-top: 20px;
+}
+
+/* Error messages */
+.error-message,
+.error-message span,
+span.error-message {
+    color: red !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
 }

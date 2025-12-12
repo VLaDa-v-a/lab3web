@@ -4,14 +4,20 @@ import com.github.dolphin.monitoring.TimeInterval;
 import com.github.dolphin.monitoring.PointsCounter;
 import com.github.dolphin.utils.*;
 
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Managed bean for form processing.
  * Configuration: faces-config.xml (application scope)
  */
 public class FormBean implements Serializable {
+
+    private static final MathContext MC = new MathContext(400);
 
     // Injected via <managed-property> in faces-config.xml
     private ResultBean resultBean;
@@ -58,7 +64,8 @@ public class FormBean implements Serializable {
         long startTime = System.nanoTime();
         boolean isHit = Checker.isHit(point.getX(), point.getY(), point.getR());
 
-        if (point.getX() > point.getR() * 1.3 || point.getY() > point.getR() * 1.3) {
+        BigDecimal limit = point.getR().multiply(BigDecimal.valueOf(1.3), MC);
+        if (point.getX().compareTo(limit) > 0 || point.getY().compareTo(limit) > 0) {
             pointsCounter.notifyOutOfBounds();
         }
 
@@ -77,12 +84,31 @@ public class FormBean implements Serializable {
         resultBean.addResult(point);
     }
 
-    private boolean shouldUpdateAllPoints(float radius) {
-        return !resultBean.getResults().isEmpty() && resultBean.getResults().get(0).getR() != radius;
+    private boolean shouldUpdateAllPoints(BigDecimal radius) {
+        return !resultBean.getResults().isEmpty() && resultBean.getResults().get(0).getR().compareTo(radius) != 0;
     }
     
     public void processClean() {
         databaseService.removeAllPoints();
         resultBean.clearPoints();
+    }
+    
+    /**
+     * Process point from graph click (without slider restrictions)
+     */
+    public void processFormFromGraph() {
+        Map<String, String> params = FacesContext.getCurrentInstance()
+                .getExternalContext().getRequestParameterMap();
+        
+        BigDecimal x = new BigDecimal(params.get("x"), MC);
+        BigDecimal y = new BigDecimal(params.get("y"), MC);
+        BigDecimal r = new BigDecimal(params.get("r"), MC);
+        
+        Point point = new Point();
+        point.setX(x);
+        point.setY(y);
+        point.setR(r);
+        
+        processForm(point);
     }
 }

@@ -4,6 +4,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 public class DatabaseService implements Serializable {
 
     private static final String DB_URL = "jdbc:derby:pointsDB;create=true";
+    private static final MathContext MC = new MathContext(400);
     private Connection connection;
 
     @PostConstruct
@@ -41,9 +44,9 @@ public class DatabaseService implements Serializable {
             String createTableSQL = """
                 CREATE TABLE POINTS (
                     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-                    x FLOAT NOT NULL,
-                    y FLOAT NOT NULL,
-                    r FLOAT NOT NULL,
+                    x VARCHAR(400) NOT NULL,
+                    y VARCHAR(400) NOT NULL,
+                    r VARCHAR(400) NOT NULL,
                     isHit BOOLEAN NOT NULL,
                     createdAt TIMESTAMP NOT NULL,
                     executionTime BIGINT NOT NULL,
@@ -62,9 +65,9 @@ public class DatabaseService implements Serializable {
     public void addPoint(Point point) {
         String sql = "INSERT INTO POINTS (x, y, r, isHit, createdAt, executionTime) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setFloat(1, point.getX());
-            pstmt.setFloat(2, point.getY());
-            pstmt.setFloat(3, point.getR());
+            pstmt.setString(1, point.getX().toPlainString());
+            pstmt.setString(2, point.getY().toPlainString());
+            pstmt.setString(3, point.getR().toPlainString());
             pstmt.setBoolean(4, point.getIsHit());
             pstmt.setTimestamp(5, new Timestamp(point.getCreatedAt().getTime()));
             pstmt.setLong(6, point.getExecutionTime());
@@ -89,9 +92,9 @@ public class DatabaseService implements Serializable {
             while (rs.next()) {
                 Point point = new Point();
                 point.setId(rs.getLong("id"));
-                point.setX(rs.getFloat("x"));
-                point.setY(rs.getFloat("y"));
-                point.setR(rs.getFloat("r"));
+                point.setX(new BigDecimal(rs.getString("x"), MC));
+                point.setY(new BigDecimal(rs.getString("y"), MC));
+                point.setR(new BigDecimal(rs.getString("r"), MC));
                 point.setIsHit(rs.getBoolean("isHit"));
                 point.setCreatedAt(rs.getTimestamp("createdAt"));
                 point.setExecutionTime(rs.getLong("executionTime"));
@@ -105,7 +108,7 @@ public class DatabaseService implements Serializable {
         return points;
     }
 
-    public void updateAllPoints(float newRadius) {
+    public void updateAllPoints(BigDecimal newRadius) {
         String updateSql = "UPDATE POINTS SET r = ?, isHit = ? WHERE id = ?";
         try {
             List<Point> points = getAllPoints();
@@ -113,7 +116,7 @@ public class DatabaseService implements Serializable {
             for (Point point : points) {
                 boolean newIsHit = Checker.isHit(point.getX(), point.getY(), newRadius);
                 try (PreparedStatement pstmt = connection.prepareStatement(updateSql)) {
-                    pstmt.setFloat(1, newRadius);
+                    pstmt.setString(1, newRadius.toPlainString());
                     pstmt.setBoolean(2, newIsHit);
                     pstmt.setLong(3, point.getId());
                     pstmt.executeUpdate();
@@ -127,10 +130,13 @@ public class DatabaseService implements Serializable {
     }
 
     public void removeAllPoints() {
-        String sql = "DELETE FROM POINTS";
+        String deleteSql = "DELETE FROM POINTS";
+        String restartIdentitySql = "ALTER TABLE POINTS ALTER COLUMN id RESTART WITH 1";
         try (Statement stmt = connection.createStatement()) {
-            int deleted = stmt.executeUpdate(sql);
-            System.out.println("[DB] DELETE: removed " + deleted + " points from DB");
+            int deleted = stmt.executeUpdate(deleteSql);
+            // После очистки таблицы сбрасываем автоинкремент
+            stmt.executeUpdate(restartIdentitySql);
+            System.out.println("[DB] DELETE: removed " + deleted + " points from DB; identity restarted");
         } catch (SQLException e) {
             System.out.println("[DB] ERROR DELETE: " + e.getMessage());
             throw new RuntimeException("Error deleting points from DB", e);
