@@ -3,9 +3,6 @@ package com.github.dolphin;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerFactory;
 
-/**
- * Factory for creating custom ViewExpiredExceptionHandler.
- */
 public class ViewExpiredExceptionHandlerFactory extends ExceptionHandlerFactory {
 
     private ExceptionHandlerFactory parent;

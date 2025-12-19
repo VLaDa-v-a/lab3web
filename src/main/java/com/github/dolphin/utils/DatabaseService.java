@@ -10,10 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Service for database operations using JDBC and Apache Derby.
- * Configuration: faces-config.xml (application scope)
- */
 public class DatabaseService implements Serializable {
 
     private static final String DB_URL = "jdbc:derby:pointsDB;create=true";
@@ -153,7 +149,6 @@ public class DatabaseService implements Serializable {
             try {
                 DriverManager.getConnection("jdbc:derby:;shutdown=true");
             } catch (SQLException e) {
-                // Derby throws exception on shutdown - this is normal
             }
             System.out.println("[DB] Connection closed, Derby stopped");
         } catch (SQLException e) {

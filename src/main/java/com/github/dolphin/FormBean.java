@@ -11,21 +11,15 @@ import java.math.MathContext;
 import java.util.Date;
 import java.util.Map;
 
-/**
- * Managed bean for form processing.
- * Configuration: faces-config.xml (application scope)
- */
 public class FormBean implements Serializable {
 
     private static final MathContext MC = new MathContext(400);
 
-    // Injected via <managed-property> in faces-config.xml
     private ResultBean resultBean;
     private PointsCounter pointsCounter;
     private TimeInterval timeInterval;
     private DatabaseService databaseService;
 
-    // Getters and Setters for managed-property injection
     public ResultBean getResultBean() {
         return resultBean;
     }
@@ -92,10 +86,7 @@ public class FormBean implements Serializable {
         databaseService.removeAllPoints();
         resultBean.clearPoints();
     }
-    
-    /**
-     * Process point from graph click (without slider restrictions)
-     */
+
     public void processFormFromGraph() {
         Map<String, String> params = FacesContext.getCurrentInstance()
                 .getExternalContext().getRequestParameterMap();

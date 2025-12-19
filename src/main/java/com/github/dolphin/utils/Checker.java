@@ -5,7 +5,6 @@ import java.math.MathContext;
 
 public class Checker {
 
-    // Высокая точность для расчётов (достаточно для сотен знаков)
     private static final MathContext MC = new MathContext(400);
     private static final BigDecimal ZERO = BigDecimal.ZERO;
     private static final BigDecimal TWO = BigDecimal.valueOf(2);

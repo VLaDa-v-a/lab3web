@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-/**
- * MBean for tracking time intervals.
- * Configuration: faces-config.xml (application scope)
- */
 public class TimeInterval implements TimeIntervalMBean, Serializable {
     private long intervalInSeconds;
     private final LocalDateTime startTime;

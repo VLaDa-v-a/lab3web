@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Managed bean for point data.
- * Configuration: faces-config.xml (request scope)
- */
 public class Point implements Serializable {
     private Long id;
     private BigDecimal x;

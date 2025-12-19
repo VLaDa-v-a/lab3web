@@ -5,37 +5,30 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                                   http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
 
-    <!-- ==================== Managed Beans Configuration ==================== -->
-
-    <!-- Point Bean - Request Scoped (for form input) -->
     <managed-bean>
         <managed-bean-name>pointBean</managed-bean-name>
         <managed-bean-class>com.github.dolphin.utils.Point</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 
-    <!-- Database Service - Application Scoped -->
     <managed-bean>
         <managed-bean-name>databaseService</managed-bean-name>
         <managed-bean-class>com.github.dolphin.utils.DatabaseService</managed-bean-class>
         <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
-    <!-- Points Counter - Application Scoped (for monitoring) -->
     <managed-bean>
         <managed-bean-name>pointsCounter</managed-bean-name>
         <managed-bean-class>com.github.dolphin.monitoring.PointsCounter</managed-bean-class>
         <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
-    <!-- Time Interval - Application Scoped (for monitoring) -->
     <managed-bean>
         <managed-bean-name>timeInterval</managed-bean-name>
         <managed-bean-class>com.github.dolphin.monitoring.TimeInterval</managed-bean-class>
         <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
-    <!-- Result Bean - Application Scoped -->
     <managed-bean>
         <managed-bean-name>resultBean</managed-bean-name>
         <managed-bean-class>com.github.dolphin.ResultBean</managed-bean-class>
@@ -54,7 +47,6 @@
         </managed-property>
     </managed-bean>
 
-    <!-- Form Bean - Application Scoped -->
     <managed-bean>
         <managed-bean-name>formBean</managed-bean-name>
         <managed-bean-class>com.github.dolphin.FormBean</managed-bean-class>
@@ -77,16 +69,11 @@
         </managed-property>
     </managed-bean>
 
-    <!-- ==================== Exception Handler Configuration ==================== -->
-    
-    <!-- Custom exception handler for ViewExpiredException -->
     <factory>
         <exception-handler-factory>
             com.github.dolphin.ViewExpiredExceptionHandlerFactory
         </exception-handler-factory>
     </factory>
-
-    <!-- ==================== Navigation Rules ==================== -->
 
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>

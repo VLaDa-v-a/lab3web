@@ -4,10 +4,6 @@ import javax.management.Notification;
 import javax.management.NotificationBroadcasterSupport;
 import java.io.Serializable;
 
-/**
- * MBean for counting points.
- * Configuration: faces-config.xml (application scope)
- */
 public class PointsCounter implements PointsCounterMBean, Serializable {
     private int totalPoints;
     private int hitPoints;

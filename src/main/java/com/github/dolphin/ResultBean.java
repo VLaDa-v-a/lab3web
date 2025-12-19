@@ -14,20 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Managed bean for storing results.
- * Configuration: faces-config.xml (application scope)
- */
 public class ResultBean implements Serializable {
 
     private final List<Point> results = Collections.synchronizedList(new ArrayList<>());
 
-    // Injected via <managed-property> in faces-config.xml
     private DatabaseService databaseService;
     private PointsCounter pointsCounter;
     private TimeInterval timeInterval;
 
-    // Getters and Setters for managed-property injection
     public DatabaseService getDatabaseService() {
         return databaseService;
     }
@@ -54,10 +48,7 @@ public class ResultBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        // Load existing points from database
         reloadFromDatabase();
-
-        // Register MBeans for monitoring
         registerMBeans();
     }
 
