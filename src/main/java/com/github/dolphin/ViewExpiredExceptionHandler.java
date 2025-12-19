@@ -1,0 +1,77 @@
+package com.github.dolphin;
+
+import javax.faces.FacesException;
+import javax.faces.application.ViewExpiredException;
+import javax.faces.context.ExceptionHandler;
+import javax.faces.context.ExceptionHandlerWrapper;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ExceptionQueuedEvent;
+import javax.faces.event.ExceptionQueuedEventContext;
+import java.util.Iterator;
+
+/**
+ * Custom exception handler for ViewExpiredException.
+ * Redirects to the same page when ViewExpiredException occurs,
+ * allowing sessionStorage to restore form values.
+ */
+public class ViewExpiredExceptionHandler extends ExceptionHandlerWrapper {
+
+    private ExceptionHandler wrapped;
+
+    public ViewExpiredExceptionHandler(ExceptionHandler wrapped) {
+        this.wrapped = wrapped;
+    }
+
+    @Override
+    public ExceptionHandler getWrapped() {
+        return wrapped;
+    }
+
+    @Override
+    public void handle() throws FacesException {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        
+        Iterator<ExceptionQueuedEvent> iterator = getUnhandledExceptionQueuedEvents().iterator();
+        
+        while (iterator.hasNext()) {
+            ExceptionQueuedEvent event = iterator.next();
+            ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
+            Throwable throwable = context.getException();
+            
+            // Check if it's a ViewExpiredException
+            if (throwable instanceof ViewExpiredException) {
+                ViewExpiredException vee = (ViewExpiredException) throwable;
+                
+                try {
+                    // Get the view ID that expired
+                    String viewId = vee.getViewId();
+                    
+                    if (viewId == null || viewId.isEmpty()) {
+                        viewId = "/main.xhtml";
+                    }
+                    
+                    // Log the exception (optional)
+                    System.out.println("ViewExpiredException caught: " + viewId + " - Redirecting...");
+                    
+                    // Remove the exception from the queue
+                    iterator.remove();
+                    
+                    // Redirect to the same page
+                    // This will cause the page to reload, and sessionStorage will restore values
+                    facesContext.getExternalContext().redirect(
+                        facesContext.getExternalContext().getRequestContextPath() + viewId
+                    );
+                    
+                    facesContext.responseComplete();
+                    
+                } catch (Exception e) {
+                    throw new FacesException(e);
+                }
+            }
+        }
+        
+        // Let the parent handle the rest
+        getWrapped().handle();
+    }
+}
+

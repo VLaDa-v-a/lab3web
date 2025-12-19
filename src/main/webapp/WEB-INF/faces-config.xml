@@ -77,6 +77,15 @@
         </managed-property>
     </managed-bean>
 
+    <!-- ==================== Exception Handler Configuration ==================== -->
+    
+    <!-- Custom exception handler for ViewExpiredException -->
+    <factory>
+        <exception-handler-factory>
+            com.github.dolphin.ViewExpiredExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+
     <!-- ==================== Navigation Rules ==================== -->
 
     <navigation-rule>
