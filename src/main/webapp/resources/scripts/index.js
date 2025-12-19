@@ -263,7 +263,7 @@ function restoreFormFromStorage() {
                         }
                     }
                 }
-            }, 200);
+            }, 50); // Reduced to 50ms - minimal but safe
 
             console.log("✓ Restored Y:", savedY);
         }
@@ -278,70 +278,67 @@ function restoreFormFromStorage() {
             typeof savedR + ")"
         );
 
-        // Find and click the correct R button to trigger AJAX update
-        // This ensures the server-side pointBean.r value is updated
-        setTimeout(function () {
-            const rLinks = document.querySelectorAll(".r-link");
-            let foundButton = false;
+        // Find and click the correct R button to trigger AJAX update immediately
+        // No delay needed - buttons should be ready
+        const rLinks = document.querySelectorAll(".r-link");
+        let foundButton = false;
 
-            console.log("Found", rLinks.length, "R buttons");
+        console.log("Found", rLinks.length, "R buttons");
 
-            rLinks.forEach((link, index) => {
-                const buttonText = link.textContent.trim();
-                console.log(
-                    "Button",
-                    index + ":",
-                    buttonText,
-                    "===",
-                    savedR,
-                    "?",
-                    buttonText === savedR
-                );
+        rLinks.forEach((link, index) => {
+            const buttonText = link.textContent.trim();
+            console.log(
+                "Button",
+                index + ":",
+                buttonText,
+                "===",
+                savedR,
+                "?",
+                buttonText === savedR
+            );
 
-                if (buttonText === savedR) {
-                    console.log("✓ Clicking R button:", savedR);
-                    link.click(); // This triggers AJAX and updates pointBean.r
-                    foundButton = true;
+            if (buttonText === savedR) {
+                console.log("✓ Clicking R button:", savedR);
+                link.click(); // This triggers AJAX and updates pointBean.r
+                foundButton = true;
 
-                    // Verify after AJAX completes
-                    setTimeout(function () {
-                        const rInput =
-                            document.getElementById("mainForm:rValue");
-                        if (rInput) {
-                            console.log(
-                                "✓ R value after AJAX:",
-                                rInput.value,
-                                "(expected:",
-                                savedR + ")"
-                            );
-                        }
-                    }, 300);
-                }
-            });
-
-            if (!foundButton) {
-                console.log("⚠ R button not found for value:", savedR);
-                // Fallback: manually set values
-                const rInput = document.getElementById("mainForm:rValue");
-                const rDisplay = document.getElementById("rDisplay");
-                if (rInput) {
-                    rInput.value = savedR;
-                }
-                if (rDisplay) {
-                    rDisplay.textContent = savedR;
-                    rDisplay.innerText = savedR;
-                }
-                updateRSelectorVisual(savedR);
+                // Verify after AJAX completes
+                setTimeout(function () {
+                    const rInput = document.getElementById("mainForm:rValue");
+                    if (rInput) {
+                        console.log(
+                            "✓ R value after AJAX:",
+                            rInput.value,
+                            "(expected:",
+                            savedR + ")"
+                        );
+                    }
+                }, 150); // Reduced to 150ms - minimal for AJAX
             }
-        }, 150);
+        });
+
+        if (!foundButton) {
+            console.log("⚠ R button not found for value:", savedR);
+            // Fallback: manually set values
+            const rInput = document.getElementById("mainForm:rValue");
+            const rDisplay = document.getElementById("rDisplay");
+            if (rInput) {
+                rInput.value = savedR;
+            }
+            if (rDisplay) {
+                rDisplay.textContent = savedR;
+                rDisplay.innerText = savedR;
+            }
+            updateRSelectorVisual(savedR);
+        }
     }
 
     // Unlock saving after all restorations and AJAX calls complete
-    // Wait longer than the longest AJAX operation (R click + verify = 150 + 300 = 450ms)
+    // Wait for longest operation (R AJAX verify = 150ms)
     setTimeout(function () {
         isRestoring = false;
         console.log("🔓 Unlocked storage saves after restoration complete");
-    }, 600);
+    }, 200); // Reduced to 200ms - minimal safe time
 }
 
 // Update R selector visual state (highlight selected button)
@@ -407,7 +404,7 @@ function setupStorageListeners() {
                     );
                 }
                 saveFormToStorage();
-            }, 300); // Increased from 100ms to 300ms to wait for AJAX
+            }, 150); // Reduced to 150ms - minimal for AJAX
         });
     });
 
@@ -426,9 +423,7 @@ function checkAndAutoSubmit() {
             "🔄 Auto-submitting form after ViewExpiredException recovery..."
         );
 
-        // Longer delay to ensure:
-        // 1. Values are fully restored
-        // 2. AJAX calls for R selector have completed
+        // Wait for restoration to complete (200ms) + small buffer
         setTimeout(function () {
             // Double-check that values are present
             const xValue = document.getElementById("mainForm:xValue").value;
@@ -465,10 +460,10 @@ function checkAndAutoSubmit() {
                                 "✗ Could not auto-submit, user needs to click manually"
                             );
                         }
-                    }, 800);
+                    }, 250); // Reduced to 250ms - minimal retry time
                 }
             }
-        }, 800); // Increased to wait for R AJAX completion
+        }, 250); // Reduced to 250ms - near-instant response!
     }
 }
 
